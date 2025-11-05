@@ -24,7 +24,7 @@ Clearing the Teams cache is **nondestructive**: it only removes temporary cache 
 - Optional system restart prompt.
 
 ## Usage
-1. Download the **[batch file](teams-cache-cleanup.bat).**
+1. Download the [latest release](https://github.com/jbtyndall/teams-cache-cleanup/releases/latest).
 
 1. Double-click **teams-cache-cleanup.bat** to run.
 
