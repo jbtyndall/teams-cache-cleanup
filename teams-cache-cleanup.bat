@@ -43,25 +43,27 @@ tasklist /fi "imagename eq ms-teamsupdate.exe" | find /i "ms-teamsupdate.exe" >n
     echo [%date% %time%] Closed ms-teamsupdate.exe >> "%logfile%"
 )
 
-echo Waiting for Teams to close...
+echo.
+<nul set /p="Waiting for Teams to close... "
 :waitForTeamsClose
 tasklist /fi "imagename eq ms-teams.exe" | find /i "ms-teams.exe" >nul
 if %errorlevel%==0 (
     timeout /t 2 /nobreak >nul
     goto waitForTeamsClose
 )
+echo done.
 
 <nul set /p="Clearing Teams cache... "
 timeout /t 2 /nobreak >nul
 
 if exist "%LOCALAPPDATA%\Packages\MSTeams_8wekyb3d8bbwe" (
     rmdir /s /q "%LOCALAPPDATA%\Packages\MSTeams_8wekyb3d8bbwe"
-    echo [%date% %time%] Cleared New Teams (Store) cache >> "%logfile%"
+    echo [%date% %time%] Cleared New Teams Store cache >> "%logfile%"
 )
 
 if exist "%LOCALAPPDATA%\Microsoft\MSTeams" (
     rmdir /s /q "%LOCALAPPDATA%\Microsoft\MSTeams"
-    echo [%date% %time%] Cleared New Teams (MSI) cache >> "%logfile%"
+    echo [%date% %time%] Cleared New Teams MSI cache >> "%logfile%"
 )
 
 if exist "%APPDATA%\Microsoft\Teams" (
@@ -86,12 +88,13 @@ for %%p in (!apps!) do (
 
 echo.
 set /p restartChoice="Do you want to restart the computer? (Y/N): "
+
 if /i "%restartChoice%"=="Y" (
-    echo [%date% %time%] User requested restart >> "%logfile%"
-    shutdown /r /t 30
+    echo [%date% %time%] User requested restart ^(%restartChoice%^) >> "%logfile%"
+    ::shutdown /r /t 30
     echo System will restart in 30 seconds. Save your work!
 ) else (
-    echo [%date% %time%] Restart skipped >> "%logfile%"
+    echo [%date% %time%] Restart skipped ^(%restartChoice%^) >> "%logfile%"
 )
 
 echo.
